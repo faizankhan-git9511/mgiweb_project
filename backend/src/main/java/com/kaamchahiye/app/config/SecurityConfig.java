@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .requestMatchers("/", "/api", "/error").permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/platform/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/workers/**", "/api/jobs/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/workers", "/api/workers/**", "/api/jobs", "/api/jobs/**").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
             )
