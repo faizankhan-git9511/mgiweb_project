@@ -28,7 +28,7 @@ public class WorkerProfile {
 
     private BigDecimal rating;
 
-    @Column(columnDefinition = "NVARCHAR(MAX)")
+    @Column(columnDefinition = "TEXT")
     private String bio;
 
     @Column(name = "availability_status")

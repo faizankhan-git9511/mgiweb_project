@@ -23,7 +23,7 @@ public class ChatMessage {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @Column(columnDefinition = "NVARCHAR(MAX)", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(name = "sent_at", insertable = false, updatable = false)

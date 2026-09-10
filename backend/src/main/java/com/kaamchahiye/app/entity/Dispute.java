@@ -31,12 +31,12 @@ public class Dispute {
     @Column(name = "amount_in_dispute", nullable = false)
     private BigDecimal amountInDispute;
 
-    @Column(columnDefinition = "NVARCHAR(MAX)", nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String reason;
 
-    private String status;
+    private String status; // OPEN, UNDER_REVIEW, RESOLVED, REJECTED
 
-    @Column(name = "resolution_notes", columnDefinition = "NVARCHAR(MAX)")
+    @Column(name = "resolution_notes", columnDefinition = "TEXT")
     private String resolutionNotes;
 
     @Column(name = "created_at", insertable = false, updatable = false)

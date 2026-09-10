@@ -27,7 +27,7 @@ public class Job {
     @Column(name = "daily_rate", nullable = false)
     private BigDecimal dailyRate;
 
-    @Column(columnDefinition = "NVARCHAR(MAX)")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     private String status;
