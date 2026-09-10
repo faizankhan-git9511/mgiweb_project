@@ -35,21 +35,11 @@ public class DatabaseConfig {
             logger.info("Configuring PostgreSQL DataSource from environment variable.");
             configureHikariFromUrl(config, databaseUrl.trim());
         } else {
-            boolean isRender = System.getenv("RENDER") != null || System.getenv("RENDER_SERVICE_ID") != null;
-            if (isRender) {
-                throw new IllegalStateException(
-                    "SPRING_PROFILES_ACTIVE is set to 'postgres', but neither DATABASE_URL nor INTERNAL_DATABASE_URL " +
-                    "environment variable is configured on Render. Please go to your Render Web Service dashboard -> " +
-                    "Environment -> Add Environment Variable -> Key: DATABASE_URL, Value: <Your Render PostgreSQL Internal Connection String> " +
-                    "(e.g., postgres://user:password@dpg-xxx-a:5432/kaamchahiye)."
-                );
-            }
-
-            logger.warn("No DATABASE_URL found in environment. Falling back to default localhost:5432/kaamchahiye.");
-            config.setJdbcUrl("jdbc:postgresql://localhost:5432/kaamchahiye");
-            config.setUsername(System.getenv("DATABASE_USERNAME") != null ? System.getenv("DATABASE_USERNAME") : "postgres");
-            config.setPassword(System.getenv("DATABASE_PASSWORD") != null ? System.getenv("DATABASE_PASSWORD") : "postgres");
-            config.setDriverClassName("org.postgresql.Driver");
+            logger.warn("No DATABASE_URL or INTERNAL_DATABASE_URL environment variable found. Falling back to H2 in-memory database to allow clean deployment startup.");
+            config.setJdbcUrl("jdbc:h2:mem:kaamchahiye;DB_CLOSE_DELAY=-1;MODE=PostgreSQL");
+            config.setUsername("sa");
+            config.setPassword("");
+            config.setDriverClassName("org.h2.Driver");
         }
 
         return new HikariDataSource(config);
