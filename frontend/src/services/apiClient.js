@@ -35,14 +35,6 @@ apiClient.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('jwt_token');
       localStorage.removeItem('user_info');
-      
-      // Do not redirect if user is merely browsing public routes
-      const publicPaths = ['/', '/login', '/about', '/support', '/customer-service', '/workers'];
-      const isPublicPath = publicPaths.includes(window.location.pathname) || window.location.pathname.startsWith('/workers/');
-      
-      if (!isPublicPath && window.location.pathname !== '/login') {
-        window.location.href = '/login';
-      }
     }
     return Promise.reject(error);
   }
