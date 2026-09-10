@@ -7,8 +7,41 @@ import jobService from '../../services/jobService';
 import { TRADE_CATEGORIES } from '../../constants/trades';
 import { OPERATIONAL_CITIES } from '../../constants/cities';
 
+const DEMO_WORKERS = [
+  {
+    id: 1,
+    tradeSkill: "Master Carpenter & Shuttering",
+    dailyWageRate: 850,
+    bio: "12+ years experience in modular woodwork, door fitting, and building shuttering.",
+    location: "Mumbai",
+    rating: 4.9,
+    completedJobsCount: 42,
+    user: { id: 1, fullName: "Ramesh Sharma", phoneNumber: "9876543210", avatarUrl: "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?auto=format&fit=crop&w=300&q=80" }
+  },
+  {
+    id: 2,
+    tradeSkill: "Certified Electrician & Wiring",
+    dailyWageRate: 800,
+    bio: "ITI certified electrician with expert knowledge in domestic wiring, DB panel setups, and conduit laying.",
+    location: "Delhi NCR",
+    rating: 4.8,
+    completedJobsCount: 38,
+    user: { id: 2, fullName: "Suresh Kumar", phoneNumber: "9876543211", avatarUrl: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&q=80" }
+  },
+  {
+    id: 3,
+    tradeSkill: "High-Rise Plumber & Pipe Fitter",
+    dailyWageRate: 750,
+    bio: "Specialist in CPVC pipeline installation, water pump fitting, and leak detection.",
+    location: "Bengaluru",
+    rating: 4.9,
+    completedJobsCount: 56,
+    user: { id: 3, fullName: "Mohd. Arif", phoneNumber: "9876543212", avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" }
+  }
+];
+
 const HomeMarketplace = () => {
-  const [workers, setWorkers] = useState([]);
+  const [workers, setWorkers] = useState(DEMO_WORKERS);
   const [jobs, setJobs] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -20,13 +53,15 @@ const HomeMarketplace = () => {
   const loadData = async () => {
     try {
       const [workerData, jobData] = await Promise.all([
-        workerService.getWorkers(),
-        jobService.getJobs()
+        workerService.getWorkers().catch(() => []),
+        jobService.getJobs().catch(() => [])
       ]);
-      setWorkers(workerData);
-      setJobs(jobData);
+      setWorkers(Array.isArray(workerData) && workerData.length > 0 ? workerData : DEMO_WORKERS);
+      setJobs(Array.isArray(jobData) ? jobData : []);
     } catch (err) {
       console.error('Failed to load marketplace data:', err);
+      setWorkers(DEMO_WORKERS);
+      setJobs([]);
     }
   };
 
